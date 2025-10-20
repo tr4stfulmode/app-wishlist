@@ -1,4 +1,4 @@
-# app_wishlist
+# Приложение для ваших желаний
 
 A new Flutter project.
 
