@@ -29,7 +29,7 @@ class _WishlistPageState extends State<WishlistPage> {
   }
 
   @override
-  void dispose() {
+   void dispose() {
     // Отписываемся от слушателей при закрытии страницы
     NotificationService.dispose();
     super.dispose();

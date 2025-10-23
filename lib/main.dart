@@ -5,6 +5,7 @@ import 'firebase_options.dart';
 import 'pages/LoginPage.dart';
 import 'pages/wishlist_page.dart';
 import 'services/notification_service.dart';
+import 'services/update_service.dart'; // ДОБАВЛЯЕМ эту строку
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,12 +13,10 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // Инициализируем уведомления
   await NotificationService.initialize();
 
   runApp(const MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -26,6 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'My Wishlist',
+      navigatorKey: UpdateService.navigatorKey, // ДОБАВЛЯЕМ эту строку
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.deepPurple,
@@ -37,6 +37,13 @@ class MyApp extends StatelessWidget {
       home: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
+          // ДОБАВЛЯЕМ проверку обновлений
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Future.delayed(const Duration(seconds: 3), () {
+              UpdateService.checkAndUpdate();
+            });
+          });
+
           if (snapshot.hasData && snapshot.data != null) {
             return const WishlistPage();
           }
