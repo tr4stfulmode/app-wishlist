@@ -7,6 +7,7 @@ class WishItem {
   final int priority;
   bool isPurchased;
   final DateTime createdAt;
+  final String? addedBy; // Кто добавил (опционально)
 
   WishItem({
     required this.id,
@@ -17,15 +18,16 @@ class WishItem {
     required this.priority,
     this.isPurchased = false,
     required this.createdAt,
+    this.addedBy,
   });
 
-  // Метод для создания нового предмета
   factory WishItem.createNew({
     required String title,
     required String description,
     required double price,
     required String imageUrl,
     required int priority,
+    String? addedBy,
   }) {
     return WishItem(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
@@ -35,6 +37,7 @@ class WishItem {
       imageUrl: imageUrl,
       priority: priority,
       createdAt: DateTime.now(),
+      addedBy: addedBy,
     );
   }
 
@@ -48,19 +51,21 @@ class WishItem {
       'priority': priority,
       'isPurchased': isPurchased,
       'createdAt': createdAt.millisecondsSinceEpoch,
+      'addedBy': addedBy, // Сохраняем кто добавил
     };
   }
 
   factory WishItem.fromMap(Map<String, dynamic> map) {
     return WishItem(
-      id: map['id'],
-      title: map['title'],
-      description: map['description'],
-      price: map['price'],
-      imageUrl: map['imageUrl'],
-      priority: map['priority'],
-      isPurchased: map['isPurchased'],
+      id: map['id'] ?? '',
+      title: map['title'] ?? '',
+      description: map['description'] ?? '',
+      price: (map['price'] as num).toDouble(),
+      imageUrl: map['imageUrl'] ?? '',
+      priority: map['priority'] ?? 1,
+      isPurchased: map['isPurchased'] ?? false,
       createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
+      addedBy: map['addedBy'],
     );
   }
 }

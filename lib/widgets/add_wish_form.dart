@@ -28,7 +28,8 @@ class _AddWishFormState extends State<AddWishForm> {
     'https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=400', // Книги
   ];
 
-  void _submitForm() {
+  // Публичный метод для отправки формы
+  void submitForm() {
     if (_formKey.currentState!.validate()) {
       final newWish = WishItem.createNew(
         title: _titleController.text.trim(),
@@ -41,7 +42,6 @@ class _AddWishFormState extends State<AddWishForm> {
       );
 
       widget.onWishAdded(newWish);
-      Navigator.pop(context);
     }
   }
 
